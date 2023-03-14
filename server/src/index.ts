@@ -17,11 +17,41 @@ app.use(
   })
 );
 
-app.get("/health-check", (req: Request, res: Response, next: NextFunction) => {
-  res.status(StatusCodes.OK).send({ message: "OK" });
+app.get("/", (_: Request, res: Response, next: NextFunction) => {
+  res.status(StatusCodes.OK).send({ message: "Server is running" });
   next();
 });
 
 const server = app.listen(PORT, () => {
   logger.info(`The server is running at http://localhost:${PORT}`);
 });
+
+const SIGNALS = ["SIGTERM", "SIGINT"];
+
+const gracefulShutdown = (signal: string) => {
+  process.once(signal, async () => {
+    try {
+      await Promise.all([
+        new Promise<void>((resolve, reject) => {
+          server.close((err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        }),
+        // TODO: Disconnect from Database
+      ]);
+      console.log("Server and database are now disconnected");
+      process.exit(0);
+    } catch (error: any) {
+      logger.error("Error while shutting down");
+      process.exit(1);
+    }
+  });
+};
+
+for (const SIGNAL in SIGNALS) {
+  gracefulShutdown(SIGNAL);
+}
