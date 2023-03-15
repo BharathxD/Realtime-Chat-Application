@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import logger from "./logger";
 
-const connect = () => {
+export const connect = async () => {
   try {
     mongoose.set("strictQuery", false);
     const dbUri = process.env.DB_URI;
@@ -9,7 +9,7 @@ const connect = () => {
       throw new Error("Invalid DB Connection URL");
     }
     logger.info("Connecting to the Database...");
-    mongoose.connect(dbUri);
+    await mongoose.connect(dbUri);
     logger.info("Sucessfuly Connected to the Database ✅");
   } catch (error: any) {
     logger.error("Unexpected error has occured ❌");
@@ -17,3 +17,12 @@ const connect = () => {
   }
 };
 
+export const disconnect = async () => {
+  try {
+    await mongoose.connection.close();
+  } catch (error: any) {
+    logger.error("Problem disconnecting from the Database");
+  } finally {
+    return;
+  }
+};

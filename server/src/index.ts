@@ -5,6 +5,7 @@ import cors from "cors";
 import config from "config";
 import logger from "./utils/logger";
 import { StatusCodes } from "http-status-codes";
+import { connect, disconnect } from "./utils/connect";
 
 const app = express();
 
@@ -22,8 +23,9 @@ app.get("/", (_: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   logger.info(`The server is running at http://localhost:${PORT}`);
+  await connect();
 });
 
 const SIGNALS = ["SIGTERM", "SIGINT"];
@@ -42,6 +44,7 @@ const gracefulShutdown = (signal: string) => {
           });
         }),
         // TODO: Disconnect from Database
+        disconnect(),
       ]);
       console.log("Server and database are now disconnected");
       process.exit(0);
