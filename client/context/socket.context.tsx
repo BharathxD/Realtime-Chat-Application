@@ -9,15 +9,11 @@ const socket = io(SOCKET_URL);
 const SocketContext = createContext({ socket });
 
 // Define a provider component that wraps its children with the socket context
-const SocketsProvider = (props: any) => {
-  return (
-    <SocketContext.Provider value={{ socket }}>
-      {...props}
-    </SocketContext.Provider>
-  );
+const SocketProvider = (props: any) => {
+  return <SocketContext.Provider value={{ socket }} {...props} />;
 };
 
 // Define a custom hook that allows components to consume the socket context
 export const useSockets = () => useContext(SocketContext);
 
-export default SocketsProvider;
+export default SocketProvider;
