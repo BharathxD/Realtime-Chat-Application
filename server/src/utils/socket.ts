@@ -6,9 +6,12 @@ const enum EVENTS {
 }
 
 const socket = ({ io }: { io: Server }) => {
-  logger.info(`Socket Enabled`);
   io.on(EVENTS.connection, (socket: Socket) => {
-    logger.info(`User connected ${socket.id}`);
+    try {
+      logger.info(`User connected ${socket.id}`);
+    } catch (error: any) {
+      logger.error("Error connecting to Socket");
+    }
   });
 };
 

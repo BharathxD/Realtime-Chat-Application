@@ -6,6 +6,9 @@ import config from "config";
 import logger from "./utils/logger";
 import { StatusCodes } from "http-status-codes";
 import { connect, disconnect } from "./utils/connect";
+import dotenv from "dotenv";
+import socket from "./utils/socket";
+dotenv.config();
 
 const app = express();
 
@@ -23,9 +26,19 @@ app.get("/", (_: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-const server = app.listen(PORT, async () => {
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  },
+});
+
+const server = httpServer.listen(PORT, async () => {
   logger.info(`The server is running at http://localhost:${PORT}`);
   await connect();
+  socket({ io });
 });
 
 const SIGNALS = ["SIGTERM", "SIGINT"];
