@@ -5,7 +5,7 @@ export const connect = async () => {
   try {
     mongoose.set("strictQuery", false);
     const dbUri = process.env.DB_URI;
-    console.log(dbUri)
+    console.log(dbUri);
     if (!dbUri) {
       throw new Error("Invalid DB Connection URL");
     }
@@ -14,7 +14,7 @@ export const connect = async () => {
     logger.info("Sucessfuly Connected to the Database ✅");
   } catch (error: any) {
     logger.error("Unexpected error has occured ❌");
-    console.log(error)
+    console.log(error);
     process.exit(1);
   }
 };
