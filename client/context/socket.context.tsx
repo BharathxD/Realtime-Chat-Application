@@ -4,11 +4,13 @@ import { createContext, useContext } from "react";
 import { io, Socket } from "socket.io-client";
 import EVENTS from "@/config/events";
 
+export type TMessages = { message: string; time: string; username: string }[];
+
 interface Context {
   socket: Socket;
   username?: string;
   setUsername: Function;
-  messages?: { message: string; time: string; username: string }[];
+  messages?: TMessages;
   setMessages: Function;
   roomId?: string;
   rooms: {};
@@ -44,7 +46,15 @@ const SocketProvider = (props: any) => {
   });
   return (
     <SocketContext.Provider
-      value={{ socket, username, setUsername, rooms, roomId, messages, setMessages }}
+      value={{
+        socket,
+        username,
+        setUsername,
+        rooms,
+        roomId,
+        messages,
+        setMessages,
+      }}
       {...props}
     />
   );

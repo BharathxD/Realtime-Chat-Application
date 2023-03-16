@@ -1,4 +1,4 @@
-import { useSockets } from "@/context/socket.context";
+import { TMessages, useSockets } from "@/context/socket.context";
 import { useRef } from "react";
 import EVENTS from "@/config/events";
 
@@ -8,21 +8,25 @@ const MessagesContainer = () => {
   if (!roomId) {
     <div>Room ID not Found</div>;
   }
-  const handleMessageSubmit = () => {
+  const handleSubmit = () => {
     if (!messageRef.current) {
       return;
     }
+
     const message = messageRef.current.value;
     socket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, { roomId, message, username });
     const date = new Date();
-    setMessages([
-      ...messages!,
+
+    setMessages((prevMessages: TMessages) => [
+      ...prevMessages,
       {
         username: "user",
         message,
         time: `${date.getHours()}:${date.getMinutes()}`,
       },
     ]);
+
+    messageRef.current.value = "";
   };
   return (
     <div>
@@ -32,7 +36,7 @@ const MessagesContainer = () => {
       {
         <div>
           <textarea ref={messageRef} placeholder="Message" rows={1}></textarea>
-          <button onClick={handleMessageSubmit}>Send</button>
+          <button onClick={handleSubmit}>Send</button>
         </div>
       }
     </div>
