@@ -1,0 +1,14 @@
+const EVENTS = {
+  CONNECTION: "connection",
+  CLIENT: {
+    CREATE_ROOM: "CREATE_ROOM",
+    SEND_ROOM_MESSAGE: "EVENTS.CLIENT.SEND_ROOM_MESSAGE",
+  },
+  SERVER: {
+    ROOMS: "ROOMS",
+    JOINED_ROOMS: "JOINED_ROOMS",
+    ROOM_MESSAGE: "ROOM_MESSAGE",
+  },
+};
+
+export default EVENTS;

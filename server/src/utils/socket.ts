@@ -1,19 +1,7 @@
 import { Socket, Server } from "socket.io";
 import logger from "./logger";
 import { v4 as uuidv4 } from "uuid";
-
-const EVENTS = {
-  CONNECTION: "connection",
-  CLIENT: {
-    CREATE_ROOM: "CREATE_ROOM",
-    SEND_ROOM_MESSAGE: "EVENTS.CLIENT.SEND_ROOM_MESSAGE",
-  },
-  SERVER: {
-    ROOMS: "ROOMS",
-    JOINED_ROOMS: "JOINED_ROOMS",
-    ROOM_MESSAGE: "ROOM_MESSAGE",
-  },
-};
+import EVENTS from "../../config/events";
 
 const rooms: Record<string, { name: string }> = {};
 
