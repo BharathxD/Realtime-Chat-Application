@@ -21,7 +21,12 @@ const SocketContext = createContext<Context>({
 // Define a provider component that wraps its children with the socket context
 const SocketProvider = (props: any) => {
   const [username, setUsername] = useState();
-  return <SocketContext.Provider value={{ socket }} {...props} />;
+  return (
+    <SocketContext.Provider
+      value={{ socket, username, setUsername }}
+      {...props}
+    />
+  );
 };
 
 // Define a custom hook that allows components to consume the socket context
