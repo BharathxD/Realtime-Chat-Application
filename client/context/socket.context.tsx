@@ -7,6 +7,8 @@ interface Context {
   socket: Socket;
   username?: string;
   setUsername: Function;
+  roomId?: string;
+  rooms: {};
 }
 
 // Connect to the socket server using the provided URL
@@ -16,14 +18,17 @@ const socket = io(SOCKET_URL);
 const SocketContext = createContext<Context>({
   socket,
   setUsername: () => false,
+  rooms: {},
 });
 
 // Define a provider component that wraps its children with the socket context
 const SocketProvider = (props: any) => {
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState<string>("");
+  const [roomId, setRoomId] = useState<string>("");
+  const [rooms, setRooms] = useState([]);
   return (
     <SocketContext.Provider
-      value={{ socket, username, setUsername }}
+      value={{ socket, username, setUsername, rooms, roomId }}
       {...props}
     />
   );

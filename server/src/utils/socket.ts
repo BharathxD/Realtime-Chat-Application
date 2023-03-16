@@ -1,12 +1,15 @@
 import { Socket, Server } from "socket.io";
 import logger from "./logger";
 
-const enum EVENTS {
-  connection = "connection",
-}
+const EVENTS = {
+  CONNECTION: "connection",
+  CLIENT: {
+    CREATE_ROOM: "CREATE_ROOM",
+  },
+};
 
 const socket = ({ io }: { io: Server }) => {
-  io.on(EVENTS.connection, (socket: Socket) => {
+  io.on(EVENTS.CONNECTION, (socket: Socket) => {
     try {
       logger.info(`User connected ${socket.id}`);
     } catch (error: any) {
