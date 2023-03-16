@@ -19,6 +19,9 @@ const RoomsContainer = () => {
         <input type="text" placeholder="Room Name" ref={newRoomRef} />
         <button onClick={handleCreateRoom}>Create Room</button>
       </div>
+      {Object.keys(rooms).map((key) => {
+        return <div key={key}>{rooms[key].name}</div>;
+      })}
     </nav>
   );
 };

@@ -18,7 +18,6 @@ const rooms: Record<string, { name: string }> = {};
 const socket = ({ io }: { io: Server }) => {
   io.on(EVENTS.CONNECTION, (socket: Socket) => {
     try {
-      logger.info(`User connected ${socket.id}`);
       socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName }) => {
         // TODO: CREATE ROOM ID
         const roomId = uuidv4();
