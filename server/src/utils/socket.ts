@@ -6,10 +6,12 @@ const EVENTS = {
   CONNECTION: "connection",
   CLIENT: {
     CREATE_ROOM: "CREATE_ROOM",
+    SEND_ROOM_MESSAGE: "EVENTS.CLIENT.SEND_ROOM_MESSAGE",
   },
   SERVER: {
     ROOMS: "ROOMS",
     JOINED_ROOMS: "JOINED_ROOMS",
+    ROOM_MESSAGE: "ROOM_MESSAGE",
   },
 };
 
@@ -18,6 +20,9 @@ const rooms: Record<string, { name: string }> = {};
 const socket = ({ io }: { io: Server }) => {
   io.on(EVENTS.CONNECTION, (socket: Socket) => {
     try {
+      /**
+       * When a user creates a new room
+       */
       socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName }) => {
         // TODO: CREATE ROOM ID
         const roomId = uuidv4();
@@ -34,6 +39,20 @@ const socket = ({ io }: { io: Server }) => {
         // TODO: EMIT EVENT BACK WITH A NEW ROOM CREATION MESSAGE
         socket.emit(EVENTS.SERVER.JOINED_ROOMS, roomId);
       });
+      /**
+       * When a user sends a room message
+       */
+      socket.on(
+        EVENTS.CLIENT.SEND_ROOM_MESSAGE,
+        ({ roomId, message, username }) => {
+          const date = new Date();
+          socket.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
+            username,
+            message,
+            time: `${date.getHours()}:${date.getMinutes()}`,
+          });
+        }
+      );
     } catch (error: any) {
       logger.error("Error connecting to Socket");
     }
