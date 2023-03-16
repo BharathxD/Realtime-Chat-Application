@@ -9,8 +9,8 @@ const RoomsContainer = () => {
     if (!newRoomRef.current) {
       return;
     }
-    const room = newRoomRef.current!.value;
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM);
+    const roomName = newRoomRef.current!.value;
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName });
     newRoomRef.current.value = "";
   };
   return (
