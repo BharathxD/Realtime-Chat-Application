@@ -42,7 +42,9 @@ const socket = ({ io }: { io: Server }) => {
         }
       );
       socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
-        socket.join(roomId);
+        console.log("ID: ", roomId.key);
+        socket.join(roomId.key);
+        socket.emit(EVENTS.SERVER.JOINED_ROOMS, roomId.key);
       });
     } catch (error: any) {
       logger.error("Error connecting to Socket");
