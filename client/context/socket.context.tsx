@@ -13,7 +13,7 @@ interface Context {
   messages?: TMessages;
   setMessages: Function;
   roomId?: string;
-  rooms: {};
+  rooms: [];
 }
 
 // Connect to the socket server using the provided URL
@@ -23,7 +23,7 @@ const socket = io(SOCKET_URL);
 const SocketContext = createContext<Context>({
   socket,
   setUsername: () => false,
-  rooms: {},
+  rooms: [],
   messages: [],
   setMessages: () => false,
 });

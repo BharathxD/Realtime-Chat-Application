@@ -5,6 +5,10 @@ import { useRef } from "react";
 const RoomsContainer = () => {
   const { socket, roomId, rooms } = useSockets();
   const newRoomRef = useRef<HTMLInputElement>(null);
+  const handleJoinRoom = (key: string) => {
+    if (key === roomId) return;
+    socket.emit(EVENTS.CLIENT.JOIN_ROOM, { key });
+  };
   const handleCreateRoom = () => {
     if (!newRoomRef.current) {
       return;
@@ -20,7 +24,17 @@ const RoomsContainer = () => {
         <button onClick={handleCreateRoom}>Create Room</button>
       </div>
       {Object.keys(rooms).map((key) => {
-        return <div key={key}>{key}</div>;
+        return (
+          <div key={key}>
+            <button
+              disabled={key === roomId}
+              title={`Join ${rooms[key].name}`}
+              onClick={() => handleJoinRoom(key)}
+            >
+              {rooms[key].name}
+            </button>
+          </div>
+        );
       })}
     </nav>
   );

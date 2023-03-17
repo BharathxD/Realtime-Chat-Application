@@ -22,7 +22,7 @@ const socket = ({ io }: { io: Server }) => {
         socket.join(roomId);
         // TODO: BROADCAST THE ROOMS
         socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
-        // TODO: EMIT BACK TO THE ROOM CREATOR WITH ALL THE ROOMS
+        // TODO: EMIT BACK TO THE ROOM CREATOR WITH ALL THE ROffOMS
         socket.emit(EVENTS.SERVER.ROOMS, rooms);
         // TODO: EMIT EVENT BACK WITH A NEW ROOM CREATION MESSAGE
         socket.emit(EVENTS.SERVER.JOINED_ROOMS, roomId);
