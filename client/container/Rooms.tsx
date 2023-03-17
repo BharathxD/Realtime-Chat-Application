@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 const RoomsContainer = () => {
   const { socket, roomId, rooms } = useSockets();
+  console.log(rooms)
   const newRoomRef = useRef<HTMLInputElement>(null);
   const handleJoinRoom = (key: string) => {
     if (key === roomId) return;
@@ -23,7 +24,7 @@ const RoomsContainer = () => {
         <input type="text" placeholder="Room Name" ref={newRoomRef} />
         <button onClick={handleCreateRoom}>Create Room</button>
       </div>
-      {Object.keys(rooms).map((key) => {
+      {Object.keys(rooms).map((key: string) => {
         return (
           <div key={key}>
             <button

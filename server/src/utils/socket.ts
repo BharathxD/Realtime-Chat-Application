@@ -42,7 +42,6 @@ const socket = ({ io }: { io: Server }) => {
         }
       );
       socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
-        console.log("ID: ", roomId.key);
         socket.join(roomId.key);
         socket.emit(EVENTS.SERVER.JOINED_ROOMS, roomId.key);
       });

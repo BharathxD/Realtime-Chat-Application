@@ -13,7 +13,7 @@ interface Context {
   messages?: TMessages;
   setMessages: Function;
   roomId?: string;
-  rooms: [];
+  rooms: { _: string; name: string }[];
 }
 
 // Connect to the socket server using the provided URL
